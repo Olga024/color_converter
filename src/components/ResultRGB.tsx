@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { Box } from '@mui/material';
 
 interface ResultInRGBProps {
     rgbValue?: string | null;
@@ -6,11 +6,28 @@ interface ResultInRGBProps {
 }
 
 const ResultRGB = ({ rgbValue, errorMessage }: ResultInRGBProps) => {
+
+    let resultText = '';
+    if (rgbValue) {
+        resultText = `${rgbValue}`;
+    } else if (errorMessage) {
+        resultText = errorMessage;
+    }
+
     return (
-        <>
-            {rgbValue && <div style={{ backgroundColor: rgbValue }}>{rgbValue}</div>}
-            {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-        </>
+        <Box
+            sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: errorMessage ? 'red' : (rgbValue || '#F0F0F0'),
+                borderRadius: '8px',
+                padding: '16px',
+                width: '100%',
+            }}
+        >
+            {resultText}
+        </Box>
     );
 };
 

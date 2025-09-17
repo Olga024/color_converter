@@ -19,15 +19,18 @@ const App = () => {
   const [colorHex, setColorHex] = React.useState<string>('');
   const [rgbValue, setRgbValue] = React.useState<string | null>(null);
   const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
+
   const handleChange = (newValue: string) => {
     setColorHex(newValue);
 
     if (newValue.length === 7) {
-      const convertedRgb = hexToRgb(newValue);
-
-      if (convertedRgb) {
-        setRgbValue(convertedRgb);
-        setErrorMessage(null);
+      const validHexRegex = /^#[A-Fa-f0-9]{6}$/;
+      if (validHexRegex.test(newValue)) {
+        const convertedRgb = hexToRgb(newValue);
+        if (convertedRgb) {
+          setRgbValue(convertedRgb);
+          setErrorMessage(null);
+        }
       } else {
         setRgbValue(null);
         setErrorMessage('Ошибка!');
@@ -38,15 +41,31 @@ const App = () => {
     }
   };
 
+  React.useEffect(() => {
+    if (rgbValue) {
+      document.body.style.backgroundColor = rgbValue;
+    } else {
+      document.body.style.backgroundColor = '#FFFFFF'; // Сброс цвета фона при ошибке или отсутствии значения
+    }
+  }, [rgbValue]);
+
   return (
-    <Container maxWidth="sm">
-      <Box
-        sx={{ my: 4 }}>
-        <Color value={colorHex} onChange={handleChange} />
-        <br /><br />
-        <ResultRGB rgbValue={rgbValue} errorMessage={errorMessage} />
-      </Box>
-    </Container >
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+      }}
+    >
+      <Container maxWidth='sm'>
+        <Box sx={{ my: 4 }}>
+          <Color value={colorHex} onChange={handleChange} />
+          <br /><br />
+          <ResultRGB rgbValue={rgbValue} errorMessage={errorMessage} />
+        </Box>
+      </Container>
+    </Box>
   );
 };
 

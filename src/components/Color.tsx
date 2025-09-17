@@ -8,10 +8,12 @@ interface ColorInputProps {
 
 export const Color = ({ value, onChange }: ColorInputProps) => (
   <TextField
-    label="Цвет в формате HEX"
+    sx={{
+      backgroundColor: 'white',
+    }}
     variant="outlined"
     fullWidth
     value={value}
     onChange={(event) => onChange(event.target.value)}
   />
-)
+);
