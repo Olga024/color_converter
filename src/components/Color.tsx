@@ -8,10 +8,12 @@ interface ColorInputProps {
 
 export const Color = ({ value, onChange }: ColorInputProps) => (
   <TextField
-    sx={{
-      backgroundColor: 'white',
+    inputProps={{
+      style: {
+        backgroundColor: 'white',
+      }
     }}
-    variant="outlined"
+    variant="filled"
     fullWidth
     value={value}
     onChange={(event) => onChange(event.target.value)}

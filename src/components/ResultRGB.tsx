@@ -20,10 +20,9 @@ const ResultRGB = ({ rgbValue, errorMessage }: ResultInRGBProps) => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                backgroundColor: errorMessage ? 'red' : (rgbValue || '#F0F0F0'),
+                backgroundColor: errorMessage ? 'red' : ('#00000050'),
                 borderRadius: '8px',
                 padding: '16px',
-                width: '100%',
             }}
         >
             {resultText}

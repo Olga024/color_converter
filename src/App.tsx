@@ -5,19 +5,19 @@ import { Color } from './components/Color';
 import ResultRGB from './components/ResultRGB';
 
 
-const hexToRgb = (hex: string): string | null => {
-  if (!hex.startsWith('#') || hex.length !== 7) return null;
+const hexToRgb = (hex: string, alpha = '1'): number[] => {
+  if (!hex.startsWith('#') || hex.length !== 7) return [0,0,0];
 
   const r = parseInt(hex.slice(1, 3), 16);
   const g = parseInt(hex.slice(3, 5), 16);
   const b = parseInt(hex.slice(5, 7), 16);
 
-  return `rgb(${r}, ${g}, ${b})`;
+  return [r,g,b];
 };
 
 const App = () => {
   const [colorHex, setColorHex] = React.useState<string>('');
-  const [rgbValue, setRgbValue] = React.useState<string | null>(null);
+  const [rgbValue, setRgbValue] = React.useState< number[] | null>([0,0,0]);
   const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
 
   const handleChange = (newValue: string) => {
@@ -43,7 +43,7 @@ const App = () => {
 
   React.useEffect(() => {
     if (rgbValue) {
-      document.body.style.backgroundColor = rgbValue;
+      document.body.style.backgroundColor = `rgb(${rgbValue.join(',')})`;
     } else {
       document.body.style.backgroundColor = '#FFFFFF'; // Сброс цвета фона при ошибке или отсутствии значения
     }
@@ -62,7 +62,7 @@ const App = () => {
         <Box sx={{ my: 4 }}>
           <Color value={colorHex} onChange={handleChange} />
           <br /><br />
-          <ResultRGB rgbValue={rgbValue} errorMessage={errorMessage} />
+          <ResultRGB rgbValue={rgbValue?`rgb(${rgbValue.join(',')})`:''} errorMessage={errorMessage} />
         </Box>
       </Container>
     </Box>
